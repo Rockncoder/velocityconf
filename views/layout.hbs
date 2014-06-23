@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Ramalytics</title>
+  <link rel="stylesheet" type="text/css" href="../styles/jquery-ui-1.10.2.custom.css">
+  <link rel="stylesheet" type="text/css" href="../styles/jquery.jqplot.css"/>
+  <link rel="stylesheet" type="text/css" href="../styles/styles.css"/>
+  <link rel="stylesheet" type="text/css" href="../styles/print.css"  media="print" />
+
+  <script src="../js/jquery-1.9.1.min.js"></script>
+  <script src="../js/jquery-ui-1.10.2.custom.bc.js"></script>
+  <script src="../js/modernizr.js"></script>
+  <script src="../js/underscore-1.4.4.min.js"></script>
+</head>
+<body>
+{{{body}}}
+<script>
+  var rnc = rnc || {};
+
+  /* create the calendar widget with monday as first day and week number showing */
+  $(function () {
+    rnc.showMessage = function(msg){
+      alert(msg);
+    };
+
+    rnc.console = rnc.console || {};
+    rnc.console.log = function(msg){
+      if(console && console.log){
+        console.log(msg);
+      }
+    };
+
+    if (Modernizr.touch && Modernizr.inputtypes.date) {
+      var ndx, list = document.getElementsByClassName('date'),
+        len = list.length;
+
+      for (ndx = 0; ndx < len; ndx += 1) {
+        list[ndx].type = 'date';
+      }
+    } else {
+      $('.date').datepicker({
+        defaultDate: "+1w",
+        firstDay:1,
+        showOtherMonths:true,
+        selectOtherMonths:true,
+        showTrailingWeek: false,
+        showWeek: true,
+        changeMonth: true
+      });
+    }
+
+    /* Add date picker to date ranges (always) */
+    $( "#from" ).datepicker({
+      defaultDate: "+1w",
+      firstDay:1,
+      showOtherMonths:true,
+      selectOtherMonths:true,
+      showTrailingWeek: false,
+      changeMonth: true,
+      numberOfMonths: 3,
+      onClose: function( selectedDate ) {
+        $( "#to" ).datepicker( "option", "minDate", selectedDate );
+      }
+    });
+    $( "#to" ).datepicker({
+      defaultDate: "+1w",
+      firstDay:1,
+      showOtherMonths:true,
+      selectOtherMonths:true,
+      showTrailingWeek: false,
+      changeMonth: true,
+      numberOfMonths: 3,
+      onClose: function( selectedDate ) {
+        $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+      }
+    });
+
+
+    /* Hover states on the static widgets */
+    $("#dialog-link, #icons li").hover(
+      function () {
+        $(this).addClass("ui-state-hover");
+      },
+      function () {
+        $(this).removeClass("ui-state-hover");
+      }
+    );
+  });
+</script>
+</body>
+</html>
