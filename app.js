@@ -8,6 +8,9 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
+  , layers = require('./routes/layers')
+  , leak = require('./routes/leak')
+  , performance = require('./routes/performance')
   , hbs = require('hbs');
 
 
@@ -31,6 +34,10 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.get('/layers', layers.list);
+app.get('/performance', performance.list);
+app.get('/leaks', leaks.list);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
