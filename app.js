@@ -36,7 +36,7 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/layers', layers.list);
 app.get('/performance', performance.list);
-app.get('/leaks', leaks.list);
+app.get('/leak', leak.list);
 
 
 http.createServer(app).listen(app.get('port'), function(){
