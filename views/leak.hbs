@@ -2,6 +2,45 @@
 <h1>Memory Leak</h1>
 
 
-<div class="btn-group-vertical">
-  <button type="button" class="btn btn-default">Leak some memory</button>
+<div class="btn-group">
+  <button id="createButton" type="button" class="btn btn-default">Create Button</button>
+  <button id="deleteButton" type="button" class="btn btn-default">Delete Button</button>
 </div>
+<hr/>
+
+<script type="text/javascript">
+  var counter= 0, buttons = [];
+
+  $('#createButton').on('click, touchstart', function(){
+    var btn, txt, bigString;
+
+    // this is an extremely large amount of memory to make the problem apparent quicker
+    bigString = new Array(10000).join(new Array(1000).join("XXXXX"));
+    btn = document.createElement("BUTTON");
+    btn.id = "btn" + counter;
+    btn.bigString = bigString;
+    txt = document.createTextNode("button no# " + counter);
+    btn.appendChild(txt);
+    // the buttons array has a reference to each created button
+    buttons.push(btn);
+
+    document.body.appendChild(btn);
+    counter += 1;
+  });
+
+  $('#deleteButton').on('click, touchstart', function(){
+    var id, btn;
+
+    if( counter > 0 ) {
+      counter -= 1;
+      id = "btn" + counter;
+      btn = document.getElementById(id);
+      // remove the last button from the screen
+      document.body.removeChild(btn);
+
+      // with this pop missing all looks good from the UI
+      // buttons.pop();
+    }
+  });
+
+</script>

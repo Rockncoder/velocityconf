@@ -1,3 +1,76 @@
 
 <h1>Performance</h1>
-<p>Drag your fingers on the screen</p>
+<div id="field" class="field">
+</div>
+
+
+<script type="text/javascript">
+  var numOfMovers = 50,
+    positions = [];
+
+  function initialize(numOfMovers) {
+    var $ptr, pos, xPos, yPos, txt, ndx, tmpDiv, field = document.getElementById("field");
+
+    for(ndx=0; ndx < numOfMovers; ndx+=1){
+      xPos = Math.floor((Math.random() * 800) + 1);
+      yPos = Math.floor((Math.random() * 600) + 1);
+      tmpDiv = document.createElement("DIV");
+      tmpDiv.id = "mover" + ndx;
+      tmpDiv.style = "-webkit-transform: rotateY(30deg) rotateX(-30deg);"
+      txt = document.createTextNode(tmpDiv.id);
+      tmpDiv.appendChild(txt);
+      $ptr = $(tmpDiv);
+      $ptr.addClass("mover");
+      pos = {left: xPos, top: yPos, $ptr: $ptr};
+      field.appendChild(tmpDiv);
+      positions.push(pos);
+    }
+  }
+
+  // shim layer with setTimeout fallback
+  window.requestAnimFrame = (function(){
+    return  window.requestAnimationFrame       ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame    ||
+      function( callback ){
+        window.setTimeout(callback, 1000 / 60);
+      };
+  })();
+
+  function render() {
+    var ndx, position;
+    for(ndx=0; ndx < numOfMovers; ndx += 1) {
+      position = positions[ndx];
+      position.left -= 10;
+      if (position.left < -75) {
+        position.left = 600;
+      }
+      position.$ptr.css(position);
+      positions[ndx] = position;
+    }
+  }
+
+  function render2() {
+    var ndx, position;
+    for(ndx=0; ndx < numOfMovers; ndx += 1) {
+      position = positions[ndx];
+      position.left -= 10;
+      if (position.left < -75) {
+        position.left = 600;
+      }
+      // this should provide a modest performance boost over
+      position.$ptr.css( {"-webkit-transform": "translate("+position.left+"px, "+position.top+"px)"});
+      positions[ndx] = position;
+    }
+  }
+
+  initialize(numOfMovers);
+
+  // let's use the recommend request anim
+  (function animloop(){
+    requestAnimFrame(animloop);
+    render();
+  })();
+
+
+</script>
