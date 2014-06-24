@@ -11,7 +11,7 @@
 <script type="text/javascript">
   var counter= 0, buttons = [];
 
-  $('#createButton').on('click touchstart', function(){
+  $('#createButton').on('click touchend', function(){
     var btn, txt, bigString;
 
     // this is an extremely large amount of memory to make the problem apparent quicker
@@ -28,7 +28,7 @@
     counter += 1;
   });
 
-  $('#deleteButton').on('click touchstart', function(){
+  $('#deleteButton').on('click touchend', function(){
     var id, btn;
 
     if( counter > 0 ) {
